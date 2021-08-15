@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+bool checkcycle(int node,vector<int>&vis,vector<int>&dvis,vector<int>adj[])
+{
+    vis[node]=1;
+    dvis[node]=1;
+    for(auto it:adj[node])
+    {
+        if(vis[it]==0)
+        {
+            if(checkcycle(it,vis,dvis,adj)) return true;
+        }
+        else if(dvis[it]==1) return true;
+    }
+    return false;
+}
+bool iscycle(vector<int>adj[],int v)
+{
+    vector<int>vis(v,0);
+    vector<int>dvis(v,0);
+    for(int i=0;i<v;i++)
+    {
+        if(vis[i]==0)
+        {
+          if(checkcycle(i,vis,dvis,adj)) return true;
+        }
+    }
+    return false;
+}
+int main()
+{
+    int V,E;
+    cin>>V>>E;
+    vector<int>adj[V];
+    for(int i=0;i<E;i++)
+    {
+        int u,v;
+        cin>>u>>v;
+        adj[u].push_back(v);
+        //adj[v].push_back(u);
+    }
+    if(iscycle(adj,V)) cout<<"cycle detected";
+    else cout<<"not detected";
+
+    return 0;
+}
