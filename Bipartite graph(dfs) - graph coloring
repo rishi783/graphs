@@ -1,0 +1,45 @@
+#include <bits/stdc++.h>
+using namespace std;
+bool bipartite(int node,int color[],vector<int>adj[])
+{
+   for(auto it:adj[node])
+   {
+       if(color[it]==-1)
+       {
+           color[it]=1-color[node];
+           if(!bipartite(it,color,adj)) return false;
+       }
+       else if(color[it]==color[node]) return false;
+   }
+   return true;
+}
+bool checkbipartite(int v,vector<int>adj[])
+{
+   int color[v];
+   memset(color,-1,sizeof(color));
+   for(int i=0;i<v;i++)
+   {
+       if(color[i]==-1)
+       {
+           color[i]=1;
+           if(!bipartite(i,color,adj)) return false; 
+       }
+   }
+   return true;
+}
+int main()
+{
+    int V,E;
+    cin>>V>>E;
+    vector<int>adj[V];
+    for(int i=0;i<E;i++)
+    {
+        int u,v;
+        cin>>u>>v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+   if(checkbipartite(V,adj)) cout<<"bi coloring possible";
+   else                      cout<<"bi coloring not possible";
+   return 0;
+}
