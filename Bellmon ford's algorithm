@@ -1,0 +1,51 @@
+#include <bits/stdc++.h>
+using namespace std;
+int mx=100000;
+struct node
+{
+    int u,v,wt;
+    node(int f,int s,int weight)
+    {
+        u=f;
+        v=s;
+        wt=weight;
+    }
+};
+int main()
+{
+   int V,E,src;
+   cin>>V>>E;
+   
+   vector<node>edge;
+   for(int i=0;i<E;i++)
+   {
+       
+       int u,v,wt;
+       cin>>u>>v>>wt;
+       edge.push_back(node(u,v,wt));
+      
+   }
+    cin>>src;
+    vector<int>dis(V,mx);
+    dis[src]=0;
+    for(int i=0;i<V-1;i++)
+    {
+        for(auto it:edge)
+        {
+            if(dis[it.u]+it.wt<dis[it.v])
+            dis[it.v]=dis[it.u]+it.wt;
+        }
+    }
+    int f1=0;
+    for(auto it:edge)
+    {
+        if(dis[it.u]+it.wt>dis[it.wt])
+        f1=1;
+        break;
+    }
+    if(f1==0)
+    {
+        for(int i=0;i<V;i++) cout<<i<<" "<<dis[i]<<endl;
+    }
+    return 0;
+}
